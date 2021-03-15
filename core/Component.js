@@ -2,7 +2,6 @@ export default class Component {
   constructor({ $target, props, name }) {
     this.$target = $target;
     this.name = name;
-    this.$componentBox = document.createElement("div");
     this.setup();
     this.setState(props, false);
     this.didMount();

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>test</title>
+  </head>
+  <body>
+    <div class="test">
+      <div class="child">
+        <h1>나를 주목해 .. ! </h1>
+      </div>
+      <div class="child2"></div>
+      <div class="child3"></div>
+      <button id="btn">밑으로 옮기기</button>
+    </div>
+    <script>
+      const test = document.querySelector(".test");
+      const btn = document.querySelector("#btn");
+      const h1 = document.querySelector("h1");
+      btn.addEventListener("click", () => {
+        test.innerHTML = `<div class="child"></div>
+      <div class="child2"></div>
+      <div class="child3"></div>
+      <button id="btn"></button>`;
+        console.log(h1);
+        test.appendChild(h1);
+      });
+    </script>
+  </body>
+</html>
