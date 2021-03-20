@@ -1,8 +1,7 @@
 export default class Component {
-  constructor($newtarget, newProps) {
-    this.$target = null;
+  constructor(newProps) {
+    this.$self = document.createElement(tagName);
     this.selfProps = null;
-    this.template = "";
     this.children = [];
     this.render($newtarget, newProps);
     this.mountComponents();
@@ -19,6 +18,14 @@ export default class Component {
   }
   setEventLinstener() {
     //addEventLinstener를 사용해서 self에 이벤트를 위임하세요.
+  }
+  render2(newProps) {
+    if (this.props !== newProps) {
+      this.template = this.getTemplate();
+      this.$target.outerHTML = this.template;
+    } else {
+      this.$target.innerHTML = this.template;
+    }
   }
   render($newTarget, newProps) {
     const isDiffTarget = this.isDiffTarget($newTarget);

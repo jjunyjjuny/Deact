@@ -1,21 +1,41 @@
 import Deact from "./core/Deact.js";
+import Raccoon from "./components/Raccoon.js";
 import { _ } from "./utils/dom.js";
-import Child from "./components/Child.js";
-import Child2 from "./components/Child2.js";
 export default class App extends Deact {
+  setup() {
+    this.state = {
+      sample: "sample",
+      dd: "DD",
+      raccoon: "raccoon",
+      pengdori: true,
+    };
+  }
+  setPropsFromState() {
+    const { sample, dd } = this.state;
+    this.props = {
+      sample,
+      dd,
+    };
+  }
   getTemplate() {
+    const { sample, dd } = this.props;
     return `
-            <div class="parent">
-                <div class="child"></div>
-                <div class="child2"></div>
-            <div>
+            <header>${dd}의 ${sample} Page</header>
+            <div id="raccoon"></div>
         `;
   }
-  mount() {
-    const child = _.$(".child", this.$target);
-    new Child(child);
-    
-    const child2 = _.$(".child2", this.$target);
-    new Child2(child);
+  mountComponents() {
+    this.createComponent(Raccoon, "#raccoon", () => {
+      const { raccoon, pengdori } = this.state;
+      return {
+        raccoon,
+        pengdori,
+        changeHeaderName: this.changeHeaderName.bind(this),
+      };
+    });
+  }
+  changeHeaderName() {
+    const { pengdori } = this.state;
+    this.updateState({ pengdori: !pengdori });
   }
 }
