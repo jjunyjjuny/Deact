@@ -7,7 +7,10 @@ export default class Pengdori extends Component {
   }
   getTemplate() {
     const { pengdori } = this.selfProps;
-    return `<button class="btn">${pengdori ? "true" : "false"}</button>`;
+    return `
+    <button class="btn">${pengdori ? "true" : "false"}</button>
+    ${this.C(Compo, props) || Component.render(props)}
+    `;
   }
 
   setEventLinstener() {

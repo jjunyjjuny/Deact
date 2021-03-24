@@ -1,11 +1,10 @@
 export default class Component {
-  constructor($newtarget, newProps) {
+  constructor($newtarget, newProps, tagName) {
     this.$target = null;
     this.selfProps = null;
-    this.template = "";
+    this.$self = document.createElement(tagName);
     this.children = [];
     this.render($newtarget, newProps);
-    this.mountComponents();
     this.setEventLinstener();
   }
   selectPropsToUse() {
@@ -30,16 +29,12 @@ export default class Component {
 
     if (isDiffTarget) {
       this.$target = $newTarget;
-      this.addEventLinstener();
-    } else {
-      this.$target.innerHTML = "";
+      this.$target.appendChild(this.$self);
     }
 
     if (isDiffProps) {
-      this.template = this.getTemplate();
-      this.$target.innerHTML = this.template;
-    } else {
-      this.$target.innerHTML = this.template;
+      this.$self.innerHTML = this.getTemplate();
+      this.mountComponents();
     }
     this.reRenderChildren();
   }
@@ -54,10 +49,10 @@ export default class Component {
     return JSON.stringify(prevProps) !== JSON.stringify(nextProps);
   }
 
-  createComponent(Constructor, targetSelector, getProps = () => {}) {
+  createComponent(Constructor, targetSelector, getProps, tagName = 'div') {
     const $target = this.$target.querySelector(targetSelector);
     const props = getProps();
-    const component = new Constructor($target, props);
+    const component = new Constructor($target, props, tagName);
     this.addToChildren(targetSelector, getProps, component);
   }
   addToChildren(targetSelector, getProps, component) {
@@ -82,13 +77,12 @@ export default class Component {
   deepCopy(obj) {
     const clone = {};
     for (let key in obj) {
-      if (typeof obj[key] == "object" && obj[key] != null) {
+      if (typeof obj[key] == 'object' && obj[key] != null) {
         clone[key] = this.deepCopy(obj[key]);
       } else {
         clone[key] = obj[key];
       }
     }
-
     return clone;
   }
 }

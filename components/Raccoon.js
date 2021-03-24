@@ -9,9 +9,12 @@ export default class Raccoon extends Component {
   getTemplate() {
     const { raccoon } = this.props;
     return `<h1>${raccoon}</h1>
-          ${todos.map((todo) => pengdori.render(todo)).join("")}
-            ${Pengdori.getTemplate(todo)}
-            <div class="pengdori"></div>`;
+
+          ${raccoon.map((rara) => this.C(Raccoon, rara)).join("")}
+
+            <div class="pengdori">
+            컴포넌트 자식 
+            </div>`;
   }
   mountComponents() {
     this.createComponent(Pengdori, ".pengdori", () => {
@@ -23,3 +26,4 @@ export default class Raccoon extends Component {
 
 // getTemplate 연쇄.
 // render는 isDiffProps로 true가 나오는 순간에 getTemplate 호출
+// 추가 삭제도 고려해야한다. 
