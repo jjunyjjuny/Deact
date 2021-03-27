@@ -16,6 +16,7 @@ export default class Component {
   mountComponents() {
     // createChildComponent 함수에 생성자, targetSelector, getPropsFunction을 인자로 전달해서 실행하세요.
   }
+  componentDidMount() {}
   setEventLinstener() {
     //addEventLinstener를 사용해서 self에 이벤트를 위임하세요.
   }
@@ -34,8 +35,10 @@ export default class Component {
 
     if (isDiffProps) {
       this.$self.innerHTML = this.getTemplate();
+      this.children = [];
       this.mountComponents();
     }
+    this.componentDidMount();
     this.reRenderChildren();
   }
   isDiffTarget($newTarget) {
@@ -49,7 +52,7 @@ export default class Component {
     return JSON.stringify(prevProps) !== JSON.stringify(nextProps);
   }
 
-  createComponent(Constructor, targetSelector, getProps, tagName = 'div') {
+  createComponent(Constructor, targetSelector, getProps, tagName = "div") {
     const $target = this.$target.querySelector(targetSelector);
     const props = getProps();
     const component = new Constructor($target, props, tagName);
@@ -75,14 +78,6 @@ export default class Component {
     });
   }
   deepCopy(obj) {
-    const clone = {};
-    for (let key in obj) {
-      if (typeof obj[key] == 'object' && obj[key] != null) {
-        clone[key] = this.deepCopy(obj[key]);
-      } else {
-        clone[key] = obj[key];
-      }
-    }
-    return clone;
+    return JSON.parse(JSON.stringify(obj));
   }
 }
